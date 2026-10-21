@@ -14,6 +14,7 @@
 //  - Comment accéder au prix du 2e cours ? Au 1er créneau du 3e cours ?
 // TODO : affichez `cours` dans la console avec console.log(), puis explorez-le.
 
+console.log(cours);
 
 // ------------------------------------------------------------
 // ÉTAPE 1 : Sélectionner les éléments du DOM
@@ -24,6 +25,17 @@
 //  summary-count, summary-total, confirm-button, message
 // TODO : récupérez ces éléments et rangez-les dans des constantes.
 // Question : quelle est la différence entre getElementById et querySelector ?
+const coursesContainer = document.getElementById('courses-container');
+const selectedCourseTitle = document.getElementById('selected-course-title');
+const slotsContainer = document.getElementById('slots-container');
+const seatsContainer = document.getElementById('seats-container');
+const summaryCourse = document.getElementById('summary-course');
+const summarySlot = document.getElementById('summary-slot');
+const summaryCount = document.getElementById('summary-count');
+const summaryTotal = document.getElementById('summary-total');
+const confirmButton = document.getElementById('confirm-button');
+const message = document.getElementById('message');
+//creatEelement et appencChild 
 
 
 // ------------------------------------------------------------
@@ -44,11 +56,26 @@
 //  - Videz ensuite #courses-container, puis recréez les cartes depuis les données.
 //  - Chaque carte affiche : visuel, catégorie, nom, durée, coach, prix.
 // Questions :
-//  - Quelle boucle ou méthode de tableau allez-vous utiliser ?
-//  - Comment stocker l'id du cours sur la carte (indice : data-*) ?
+//  - Quelle boucle ou méthode de tableau allez-vous utiliser ?foreach
+//  - Comment stocker l'id du cours sur la carte (indice : data-*) ?dataset
 //  - Les template literals (`...${valeur}...`) peuvent-ils vous aider ?
+// Fonction pour afficher les cours sous forme de cartes (US01)
+let cards = "";
 
+cours.forEach(c => {
+    cards += `<article class="cursor-pointer overflow-hidden rounded-2xl bg-white shadow-sm ring-2 ring-teal-600 transition hover:shadow-md" data-id=${c.id}>
+            <img src=${c.image} alt="Visuel du cours Yoga Flow" class="h-36 w-full object-cover" />
+            <div class="space-y-1 p-4">
+              <span class="inline-block rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-700">${c.categorie}</span>
+              <h3 class="text-lg font-semibold text-slate-900">${c.nom}</h3>
+              <p class="text-sm text-slate-600">${c.duree}, avec ${c.coach} </p>
+              <p class="pt-1 text-base font-bold text-slate-900">${c.prix}$<span class="text-sm font-normal text-slate-500">par place</span></p>
+            </div>
+          </article>`
+});
 
+coursesContainer.innerHTML = cards;
+console.log(cards);
 // ------------------------------------------------------------
 // ÉTAPE 4 : Sélectionner un cours (US02)
 // ------------------------------------------------------------
