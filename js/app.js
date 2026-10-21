@@ -46,7 +46,9 @@ const message = document.getElementById('message');
 // Question : de quelles informations avez-vous besoin ?
 //  (cours choisi, créneau choisi, emplacements choisis...)
 // Indice : pourquoi un tableau est-il adapté pour les emplacements choisis ?
-
+let selectedCourse=null;
+let selectSlot=null;
+let selectSeats=[];
 
 // ------------------------------------------------------------
 // ÉTAPE 3 : Afficher les cours (US01)
@@ -60,22 +62,22 @@ const message = document.getElementById('message');
 //  - Comment stocker l'id du cours sur la carte (indice : data-*) ?dataset
 //  - Les template literals (`...${valeur}...`) peuvent-ils vous aider ?
 // Fonction pour afficher les cours sous forme de cartes (US01)
-let cards = "";
+let template = "";
 
 cours.forEach(c => {
-    cards += `<article class="cursor-pointer overflow-hidden rounded-2xl bg-white shadow-sm ring-2 ring-teal-600 transition hover:shadow-md" data-id=${c.id}>
+    template += `<article class="cursor-pointer overflow-hidden rounded-2xl bg-white shadow-sm ring-2 ring-teal-600 transition hover:shadow-md" data-id=${c.id}>
             <img src=${c.image} alt="Visuel du cours Yoga Flow" class="h-36 w-full object-cover" />
             <div class="space-y-1 p-4">
               <span class="inline-block rounded-full bg-teal-50 px-2.5 py-0.5 text-xs font-medium text-teal-700">${c.categorie}</span>
               <h3 class="text-lg font-semibold text-slate-900">${c.nom}</h3>
               <p class="text-sm text-slate-600">${c.duree}, avec ${c.coach} </p>
-              <p class="pt-1 text-base font-bold text-slate-900">${c.prix}$<span class="text-sm font-normal text-slate-500">par place</span></p>
+              <p class="pt-1 text-base font-bold text-slate-900">${c.prix}$ <span class="text-sm font-normal text-slate-500">par place</span></p>
             </div>
           </article>`
 });
 
-coursesContainer.innerHTML = cards;
-console.log(cards);
+coursesContainer.innerHTML = template;
+console.log(template);
 // ------------------------------------------------------------
 // ÉTAPE 4 : Sélectionner un cours (US02)
 // ------------------------------------------------------------
@@ -88,6 +90,17 @@ console.log(cards);
 //  - Comment retrouver le cours à partir de l'id lu dans la carte ?
 //  - Que faut-il réinitialiser quand on change de cours ?
 
+const cards=document.querySelectorAll('.cursor-pointer');
+
+cards.forEach(function(card){
+    card.addEventListener('click',function(){
+           cards.forEach(function(otherCard){
+               otherCard.classList.remove('ring-2', 'ring-teal-600');
+           });
+        card.classList.add('ring-2', 'ring-teal-600');
+    });
+});
+console.log(cards);
 
 // ------------------------------------------------------------
 // ÉTAPE 5 : Afficher et sélectionner un créneau (US03)
