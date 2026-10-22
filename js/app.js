@@ -14,7 +14,7 @@
 //  - Comment accéder au prix du 2e cours ? Au 1er créneau du 3e cours ?
 // TODO : affichez `cours` dans la console avec console.log(), puis explorez-le.
 
-console.log(cours);
+//console.log(cours);
 
 // ------------------------------------------------------------
 // ÉTAPE 1 : Sélectionner les éléments du DOM
@@ -73,8 +73,8 @@ cours.forEach(c => {
           </article>`
 });
 coursesContainer.innerHTML = template;
-//console.log(template);
 // console.log(template);
+
 // ------------------------------------------------------------
 // ÉTAPE 4 : Sélectionner un cours (US02)
 // ------------------------------------------------------------
@@ -87,8 +87,6 @@ coursesContainer.innerHTML = template;
 //  - Comment retrouver le cours à partir de l'id lu dans la carte ?
 //  - Que faut-il réinitialiser quand on change de cours ?
 
-const cards = document.querySelectorAll('.cursor-pointer');
-
 // cards.forEach(function(card){
 //     card.addEventListener('click',function(){
 //            cards.forEach(function(otherCard){
@@ -98,6 +96,8 @@ const cards = document.querySelectorAll('.cursor-pointer');
 //         afficherNomCours(card);
 //     });
 // });
+
+const cards = coursesContainer.querySelectorAll('.cursor-pointer');
 function selectionCours(card) {
     cards.forEach(function (otherCard) {
         otherCard.classList.remove('ring-2', 'ring-teal-600');
@@ -107,6 +107,7 @@ function selectionCours(card) {
 
     afficherNomCours(card);
     afficherCreneaux(card);
+    selectionCreneau();
 }
 
 cards.forEach(function (card) {
@@ -114,7 +115,7 @@ cards.forEach(function (card) {
         selectionCours(card);
     });
 });
-//console.log(selectedCourseTitle);
+
 
 // ------------------------------------------------------------
 // ÉTAPE 5 : Afficher et sélectionner un créneau (US03)
@@ -130,22 +131,51 @@ function afficherNomCours(card) {
     selectedCourseTitle.textContent = card.dataset.nom;
 }
 
-function afficherCreneaux(card) {
-    const selectedCourse = cours.find(function (c) {
-        return c.id == card.dataset.id;
+function afficherCreneaux(creneau) {
+    const selectedCourse = cours.find(function (coursSelectionè) {
+        return coursSelectionè.id == creneau.dataset.id;
     });
 
-    slotsContainer.innerHTML = "";//vider le div
+    slotsContainer.innerHTML = "";
 
     selectedCourse.creneaux.forEach(function (creneau) {
         slotsContainer.innerHTML += `
-            <div id="slots-container" class="flex flex-wrap gap-3">
-            <button type="button" class="rounded-xl border px-4 py-2 text-sm font-medium transition border-slate-300 bg-white text-slate-800 hover:border-teal-600" data-id="${creneau.id}">
+            <button type="button" class="rounded-xl border px-4 py-2 text-sm font-medium transition border-slate-300 bg-white text-slate-800 " data-id="${creneau.id}">
             ${creneau.jour} <span class="font-normal">${creneau.heure}</span>
             </button>
-            </div>`;
+            `;
     });
 }
+
+function selectionCreneau() {
+    const creneaux = slotsContainer.querySelectorAll('button');
+    creneaux.forEach(function (creneau) {
+        creneau.addEventListener('click', function () {
+            creneaux.forEach(function (c) {
+                c.classList.remove('ring-2', 'ring-teal-600', 'bg-teal-500', 'text-white');
+            });
+            creneau.classList.add('ring-2', 'ring-teal-600', 'bg-teal-500', 'text-white');
+        });
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ------------------------------------------------------------
 // ÉTAPE 6 : Afficher le plan de la salle (US04)
 // ------------------------------------------------------------
@@ -157,6 +187,21 @@ function afficherCreneaux(card) {
 //  - Comment construire "A1" à partir d'une rangée et d'un numéro ?
 //  - Comment savoir si un emplacement est dans la liste des occupés (includes) ?
 //  - Faut-il une boucle imbriquée ? Pourquoi ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // ------------------------------------------------------------
