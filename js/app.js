@@ -28,7 +28,7 @@
 const coursesContainer = document.getElementById('courses-container');
 const selectedCourseTitle = document.getElementById('selected-course-title');
 const slotsContainer = document.getElementById('slots-container');
-const seatsContainer = document.getElementById('seats-container');
+let seatsContainer = document.getElementById('seats-container');
 const summaryCourse = document.getElementById('summary-course');
 const summarySlot = document.getElementById('summary-slot');
 const summaryCount = document.getElementById('summary-count');
@@ -108,6 +108,7 @@ function selectionCours(card) {
     afficherNomCours(card);
     afficherCreneaux(card);
     selectionCreneau();
+    
 }
 
 cards.forEach(function (card) {
@@ -155,26 +156,12 @@ function selectionCreneau() {
                 c.classList.remove('ring-2', 'ring-teal-600', 'bg-teal-500', 'text-white');
             });
             creneau.classList.add('ring-2', 'ring-teal-600', 'bg-teal-500', 'text-white');
+            afficheEmplacement();
         });
+
     });
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // ------------------------------------------------------------
 // ÉTAPE 6 : Afficher le plan de la salle (US04)
@@ -188,9 +175,22 @@ function selectionCreneau() {
 //  - Comment savoir si un emplacement est dans la liste des occupés (includes) ?
 //  - Faut-il une boucle imbriquée ? Pourquoi ?
 
+const emplacements = [
+    "A1", "A2", "A3", "A4", "A5", "A6",
+    "B1", "B2", "B3", "B4", "B5", "B6",
+    "C1", "C2", "C3", "C4", "C5", "C6",
+    "D1", "D2", "D3", "D4", "D5", "D6",
+    "E1", "E2", "E3", "E4", "E5", "E6"
+];
 
-
-
+function afficheEmplacement() {
+    seatsContainer.innerHTML = "";
+    emplacements.forEach(function (emplacement) {
+        seatsContainer.innerHTML += `<button type="button" class="seat h-11 rounded-lg text-xs font-semibold transition 
+        cursor-not-allowed bg-slate-300 text-slate-500" data-id="${emplacement}" 
+        disabled aria-label="Tapis A2 occupé">${emplacement}</button>`;
+    });
+}
 
 
 
