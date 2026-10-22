@@ -106,11 +106,12 @@ function selectionCours(card) {
     card.classList.add('ring-2', 'ring-teal-600');
 
     afficherNomCours(card);
+    afficherCreneaux(card);
 }
 
 cards.forEach(function (card) {
     card.addEventListener('click', function () {
-       selectionCours(card);
+        selectionCours(card);
     });
 });
 //console.log(selectedCourseTitle);
@@ -127,6 +128,23 @@ cards.forEach(function (card) {
 //  - Que se passe-t-il si aucun cours n'est encore sélectionné ?
 function afficherNomCours(card) {
     selectedCourseTitle.textContent = card.dataset.nom;
+}
+
+function afficherCreneaux(card) {
+    const selectedCourse = cours.find(function (c) {
+        return c.id == card.dataset.id;
+    });
+
+    slotsContainer.innerHTML = "";//vider le div
+
+    selectedCourse.creneaux.forEach(function (creneau) {
+        slotsContainer.innerHTML += `
+            <div id="slots-container" class="flex flex-wrap gap-3">
+            <button type="button" class="rounded-xl border px-4 py-2 text-sm font-medium transition border-slate-300 bg-white text-slate-800 hover:border-teal-600" data-id="${creneau.id}">
+            ${creneau.jour} <span class="font-normal">${creneau.heure}</span>
+            </button>
+            </div>`;
+    });
 }
 // ------------------------------------------------------------
 // ÉTAPE 6 : Afficher le plan de la salle (US04)
