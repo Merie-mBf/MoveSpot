@@ -46,7 +46,15 @@ const message = document.getElementById('message');
 // Question : de quelles informations avez-vous besoin ?
 //  (cours choisi, créneau choisi, emplacements choisis...)
 // Indice : pourquoi un tableau est-il adapté pour les emplacements choisis ?
+const emplacements = [
+    "A1", "A2", "A3", "A4", "A5", "A6",
+    "B1", "B2", "B3", "B4", "B5", "B6",
+    "C1", "C2", "C3", "C4", "C5", "C6",
+    "D1", "D2", "D3", "D4", "D5", "D6",
+    "E1", "E2", "E3", "E4", "E5", "E6"
+];
 
+let emplacementsSelectionnes = [];
 // ------------------------------------------------------------
 // ÉTAPE 3 : Afficher les cours (US01)
 // ------------------------------------------------------------
@@ -185,14 +193,6 @@ function selectionCreneau(card) {
 //  - Comment savoir si un emplacement est dans la liste des occupés (includes) ?
 //  - Faut-il une boucle imbriquée ? Pourquoi ?
 
-const emplacements = [
-    "A1", "A2", "A3", "A4", "A5", "A6",
-    "B1", "B2", "B3", "B4", "B5", "B6",
-    "C1", "C2", "C3", "C4", "C5", "C6",
-    "D1", "D2", "D3", "D4", "D5", "D6",
-    "E1", "E2", "E3", "E4", "E5", "E6"
-];
-
 function afficheEmplacement(creneau) {
     seatsContainer.innerHTML = "";
 
@@ -211,18 +211,8 @@ function afficheEmplacement(creneau) {
         }
 
     });
+    selectionneEmplacement();
 }
-
-
-
-
-
-
-
-
-
-
-
 
 // ------------------------------------------------------------
 // ÉTAPE 7 : Sélectionner / désélectionner des emplacements (US05)
@@ -235,7 +225,37 @@ function afficheEmplacement(creneau) {
 //  - Quelle méthode de tableau permet d'ajouter ? De retirer (filter, splice) ?
 //  - Comment vérifier qu'un id est déjà dans le tableau ?
 //  - Que doit-il se passer si on clique sur un emplacement occupé ?
+//seats=emplacements
+//filter:deselectionner
+//push:selectionner
+function selectionneEmplacement() {
 
+    const emplacements = seatsContainer.querySelectorAll(".seat");
+
+    emplacements.forEach(function (emplacement) {
+
+        emplacement.addEventListener("click", function () {
+
+            if (emplacement.disabled) return;
+
+            const id = emplacement.dataset.id;
+
+            if (emplacementsSelectionnes.includes(id)) {
+
+                emplacementsSelectionnes = emplacementsSelectionnes.filter(Element => Element !== id);
+
+                emplacement.classList.remove("bg-teal-500", "text-white");
+
+            } else {
+
+                emplacementsSelectionnes.push(id);
+
+                emplacement.classList.add("bg-teal-500", "text-white");
+            }
+            console.log(emplacementsSelectionnes);
+        });
+    });
+}
 
 // ------------------------------------------------------------
 // ÉTAPE 8 : Calculer et afficher le récapitulatif (US06)
