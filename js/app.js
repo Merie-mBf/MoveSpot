@@ -70,7 +70,7 @@ cours.forEach(c => {
               <p class="text-sm text-slate-600">${c.duree}, avec ${c.coach} </p>
               <p class="pt-1 text-base font-bold text-slate-900">${c.prix}$ <span class="text-sm font-normal text-slate-500">par place</span></p>
             </div>
-          </article>`
+          </article>`;
 });
 coursesContainer.innerHTML = template;
 // console.log(template);
@@ -107,8 +107,9 @@ function selectionCours(card) {
 
     afficherNomCours(card);
     afficherCreneaux(card);
-    selectionCreneau();
-    
+    selectionCreneau(card);
+
+
 }
 
 cards.forEach(function (card) {
@@ -132,9 +133,9 @@ function afficherNomCours(card) {
     selectedCourseTitle.textContent = card.dataset.nom;
 }
 
-function afficherCreneaux(creneau) {
-    const selectedCourse = cours.find(function (coursSelectionè) {
-        return coursSelectionè.id == creneau.dataset.id;
+function afficherCreneaux(card) {
+    const selectedCourse = cours.find(function (cardSelectionè) {
+        return cardSelectionè.id == card.dataset.id;
     });
 
     slotsContainer.innerHTML = "";
@@ -148,7 +149,7 @@ function afficherCreneaux(creneau) {
     });
 }
 
-function selectionCreneau() {
+function selectionCreneau(card) {
     const creneaux = slotsContainer.querySelectorAll('button');
     creneaux.forEach(function (creneau) {
         creneau.addEventListener('click', function () {
@@ -156,7 +157,16 @@ function selectionCreneau() {
                 c.classList.remove('ring-2', 'ring-teal-600', 'bg-teal-500', 'text-white');
             });
             creneau.classList.add('ring-2', 'ring-teal-600', 'bg-teal-500', 'text-white');
-            afficheEmplacement();
+
+            const selectedCourse = cours.find(function (c) {
+                return c.id == card.dataset.id;
+            });
+
+            const selectedCreneau = selectedCourse.creneaux.find(function (c) {
+                return c.id == creneau.dataset.id;
+            });
+
+            afficheEmplacement(selectedCreneau);
         });
 
     });
@@ -183,15 +193,25 @@ const emplacements = [
     "E1", "E2", "E3", "E4", "E5", "E6"
 ];
 
-function afficheEmplacement() {
+function afficheEmplacement(creneau) {
     seatsContainer.innerHTML = "";
+
     emplacements.forEach(function (emplacement) {
-        seatsContainer.innerHTML += `<button type="button" class="seat h-11 rounded-lg text-xs font-semibold transition 
-        cursor-not-allowed bg-slate-300 text-slate-500" data-id="${emplacement}" 
-        disabled aria-label="Tapis A2 occupé">${emplacement}</button>`;
+
+        if (creneau.occupes.includes(emplacement)) {
+            seatsContainer.innerHTML += `<button type="button" class="seat h-11 rounded-lg text-xs font-semibold
+                    transition cursor-not-allowed bg-slate-300 text-slate-500" data-id="${emplacement}"
+                    disabled aria-label="Tapis ${emplacement} occupé"> ${emplacement}</button>`;
+            //.disabled : bloque le clic    .cursor-not-allowed : indique l’interdiction.
+        } else {
+            seatsContainer.innerHTML += `
+                <button type="button" class="seat h-11 rounded-lg text-xs font-semibold
+                transition border border-slate-300 bg-white text-slate-700 hover:border-teal-600"
+                    data-id="${emplacement}" aria-label="Tapis ${emplacement} libre"> ${emplacement} </button>`;
+        }
+
     });
 }
-
 
 
 
